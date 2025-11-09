@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { API_BASE_URL } from './config';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
@@ -40,7 +41,7 @@ function App() {
   // Fetch all auctions
   const fetchAuctions = async () => {
     try {
-      const response = await axios.get('http://localhost:7000/api/auctions');
+      const response = await axios.get('${API_BASE_URL}/api/auctions');
       setAuctions(response.data.auctions || []);
     } catch (error) {
       console.error('Error fetching auctions:', error);
@@ -51,7 +52,7 @@ function App() {
   const fetchMyAuctions = async () => {
     if (!loggedInUser) return;
     try {
-      const response = await axios.get(`http://localhost:7000/api/auctions/user/${loggedInUser.id}`);
+      const response = await axios.get(`${API_BASE_URL}/api/auctions/user/${loggedInUser.id}`);
       setMyAuctions(response.data.auctions || []);
     } catch (error) {
       console.error('Error fetching my auctions:', error);
@@ -62,7 +63,7 @@ function App() {
   const fetchMyBids = async () => {
     if (!loggedInUser) return;
     try {
-      const response = await axios.get(`http://localhost:7000/api/bids/user/${loggedInUser.id}`);
+      const response = await axios.get(`${API_BASE_URL}/api/bids/user/${loggedInUser.id}`);
       setMyBids(response.data.bids || []);
     } catch (error) {
       console.error('Error fetching my bids:', error);
@@ -73,7 +74,7 @@ function App() {
   const handleCreateAuction = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:7000/api/auctions', {
+      const response = await axios.post('${API_BASE_URL}/api/auctions', {
         ...newAuction,
         seller_id: loggedInUser.id,
         seller_name: loggedInUser.full_name
@@ -92,7 +93,7 @@ function App() {
   const handlePlaceBid = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:7000/api/bids', {
+      const response = await axios.post('${API_BASE_URL}/api/bids', {
         auction_id: selectedAuction._id,
         bidder_id: loggedInUser.id,
         bidder_name: loggedInUser.full_name,
@@ -118,7 +119,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('http://localhost:7000/api/login', loginData);
+      const response = await axios.post('${API_BASE_URL}/api/login', loginData);
       setMessage({ text: response.data.message, type: 'success' });
       setLoggedInUser(response.data.user);
       setLoginData({ username: '', password: '' });
@@ -159,7 +160,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('http://localhost:7000/api/register', {
+      const response = await axios.post('${API_BASE_URL}/api/register', {
         full_name: registerData.full_name,
         email: registerData.email,
         username: registerData.username,

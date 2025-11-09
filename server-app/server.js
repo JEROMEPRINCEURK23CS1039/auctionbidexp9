@@ -4,11 +4,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const app = express();
-app.use(cors());
+
+// CORS Configuration for production
+app.use(cors({
+  origin: ['https://auctionbidexp9.vercel.app', 'http://localhost:5173'],
+  credentials: true
+}));
+
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/auctionDB', {
+// MongoDB Connection - Use environment variable or fallback to local
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/auctionDB';
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -291,7 +298,7 @@ app.get('/api/bids/auction/:auctionId', async (req, res) => {
   }
 });
 
-const PORT = 7000;
+const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
