@@ -203,12 +203,6 @@ npm install
 - Uses `nodemon` for automatic server restart during development
 - Uses `Vite` for fast frontend development
 
-## GitHub Copilot Prompts Used
-
-1. **Backend Setup**: Create a complete Node.js Express server with MongoDB and bcrypt for user authentication
-2. **Frontend Setup**: Build a React registration and login form with Bootstrap styling
-3. **Integration**: Fix MongoDB connection and ensure all routes work with proper CORS
-
 ## Next Steps
 
 To extend this application, consider adding:
